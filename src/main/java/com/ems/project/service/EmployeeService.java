@@ -1,5 +1,7 @@
 package com.ems.project.service;
 
+import java.util.List;
+
 import org.jspecify.annotations.Nullable;
 
 import com.ems.project.model.Employee;
@@ -10,5 +12,6 @@ public interface EmployeeService {
 
 	
 	  Employee saveEmployee(Employee employee);
+	   List<Employee> getALLEmployee();
 
 }

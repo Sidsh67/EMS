@@ -41,7 +41,7 @@ public class ContactInformation {
     @NotBlank(message = "Mobile number is required")
     @Pattern(regexp = "^[6-9]\\d{9}$",
              message = "Mobile number must be 10 digits")
-    @Column(name = "mobile_no", nullable = false)
+    @Column(name = "mobile_no", nullable = false, unique = true)
     private String mobileNo;
 
     @Pattern(regexp = "^[6-9]\\d{9}$",

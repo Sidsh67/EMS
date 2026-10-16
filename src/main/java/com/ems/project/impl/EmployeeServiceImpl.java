@@ -1,8 +1,10 @@
 package com.ems.project.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
-import com.ems.project.model.AccountInformation;
+import com.ems.project.exception.ResourceAlreadyExistsException;
 import com.ems.project.model.Employee;
 import com.ems.project.repository.EmployeeRepository;
 import com.ems.project.service.EmployeeService;
@@ -16,17 +18,27 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
 
     public Employee saveEmployee(Employee employee) {
+    	String email =
+                employee.getContactInformation().getEmail();
 
-        AccountInformation accountInfo =
-                employee.getAccountInformation();
+        String employeeId =
+                employee.getEmployeeInformation().getEmployeeId();
 
-        if (!accountInfo.getPassword()
-                .equals(accountInfo.getConfirmPassword())) {
-
-            throw new RuntimeException(
-                    "Password and Confirm Password do not match");
+        if (employeeRepository.existsByContactInformationEmail(email)) {
+            throw new ResourceAlreadyExistsException(
+                    "Email already exists: " + email);
         }
 
-        return employeeRepository.save(employee);
+        if (employeeRepository.existsByEmployeeInformationEmployeeId(employeeId)) {
+            throw new ResourceAlreadyExistsException(
+                    "Employee ID already exists: " + employeeId);
+        }
+
+         return employeeRepository.save(employee);
+    }
+    
+    
+    public List<Employee> getALLEmployee() {
+    	return employeeRepository.findAll();
     }
 }
